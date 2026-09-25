@@ -7,7 +7,7 @@ const listar = async (req, res) => {
         res.status(200).json(clientes);
     } catch (error) {
         res.status(500).json({
-            erro: "Erro ao listar clientes."
+            erro: "500: Erro ao listar clientes."
         });
     }
 };
@@ -18,14 +18,14 @@ const buscarPorId = async (req, res) => {
 
         if (!cliente) {
             return res.status(404).json({
-                erro: "Cliente não encontrado."
+                erro: "404: Cliente não encontrado."
             });
         }
 
         res.status(200).json(cliente);
     } catch (error) {
         res.status(500).json({
-            erro: "Erro ao buscar cliente."
+            erro: "500: Erro ao buscar cliente."
         });
     }
 };
@@ -50,7 +50,7 @@ const criar = async (req, res) => {
         res.status(201).json(cliente);
     } catch (error) {
         res.status(500).json({
-            erro: "Erro ao cadastrar cliente."
+            erro: "500:Erro ao cadastrar cliente."
         });
     }
 };
@@ -61,7 +61,7 @@ const atualizar = async (req, res) => {
 
         if (!cliente) {
             return res.status(404).json({
-                erro: "Cliente não encontrado."
+                erro: "404: Cliente não encontrado."
             });
         }
 
@@ -70,7 +70,7 @@ const atualizar = async (req, res) => {
         res.status(200).json(cliente);
     } catch (error) {
         res.status(500).json({
-            erro: "Erro ao atualizar cliente."
+            erro: "500: Erro ao atualizar cliente."
         });
     }
 };
@@ -81,7 +81,7 @@ const excluir = async (req, res) => {
 
         if (!cliente) {
             return res.status(404).json({
-                erro: "Cliente não encontrado."
+                erro: "404: Cliente não encontrado."
             });
         }
 
@@ -90,7 +90,7 @@ const excluir = async (req, res) => {
         res.status(204).send();
     } catch (error) {
         res.status(500).json({
-            erro: "Erro ao excluir cliente."
+            erro: "500: Erro ao excluir cliente."
         });
     }
 };
