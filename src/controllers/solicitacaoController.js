@@ -1,4 +1,8 @@
 const { Solicitacao, Gato, Cuidador } = require("../models");
+const filtrarCampos = require("../utils/filtrarCampos");
+
+// status e cuidadorId só mudam pelas rotas /aceitar e /concluir.
+const CAMPOS_EDITAVEIS = ["dataVisita", "horario", "servicos", "observacoes", "valor"];
 
 const listar = async (req, res) => {
     try {
@@ -119,7 +123,7 @@ const atualizar = async (req, res) => {
             });
         }
 
-        await solicitacao.update(req.body);
+        await solicitacao.update(filtrarCampos(req.body, CAMPOS_EDITAVEIS));
 
         res.status(200).json(solicitacao);
     } catch (error) {

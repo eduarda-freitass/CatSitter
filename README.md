@@ -79,3 +79,13 @@ Solicitação CONCLUIDA
 ```
 
 O projeto utiliza SQLite para persistência dos dados.
+
+## Segurança
+
+* **Senhas criptografadas** — senhas de clientes e cuidadores são salvas como hash `bcrypt` e nunca aparecem nas respostas da API.
+* **Filtro de campos** — as rotas de atualização (`PUT`) só aceitam os campos editáveis de cada entidade. Campos protegidos, como `id`, `status`, `cuidadorId` e `clienteId`, são ignorados.
+* **Exclusão de cuidador** — solicitações aceitas pelo cuidador excluído voltam para `PENDENTE`, ficando disponíveis para outros cuidadores.
+
+## Testes
+
+A coleção `docs/insomnia_testes_catsitter.json` pode ser importada no Insomnia e contém todas as requisições da API, além de testes de erro.

@@ -1,5 +1,25 @@
+# Dependências
 node_modules/
+
+# Variáveis de ambiente (mantém apenas o exemplo)
 .env
-catsitter.sqlite
+.env.*
+!.env.example
+
+# Banco de dados local
 *.sqlite
 *.sqlite3
+*.sqlite-journal
+*.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Editores e sistema operacional
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

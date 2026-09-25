@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/database");
+const { criptografarSenha, semSenha } = require("../utils/senha");
 
 const Cliente = sequelize.define("Cliente", {
     id: {
@@ -31,6 +32,17 @@ const Cliente = sequelize.define("Cliente", {
         type: DataTypes.STRING,
         allowNull: false
     }
+}, {
+    // Não carrega a senha nas consultas (inclusive em includes).
+    defaultScope: {
+        attributes: { exclude: ["senha"] }
+    },
+
+    hooks: {
+        beforeSave: criptografarSenha
+    }
 });
+
+Cliente.prototype.toJSON = semSenha;
 
 module.exports = Cliente;
