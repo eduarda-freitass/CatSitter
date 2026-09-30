@@ -1,0 +1,486 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-09-24T14:19:00.626Z",
+  "__export_source": "insomnia.desktop.app:v8",
+  "resources": [
+    {
+      "_id": "wrk_catsitter",
+      "_type": "workspace",
+      "parentId": null,
+      "name": "CatSitter API",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_base",
+      "_type": "environment",
+      "parentId": "wrk_catsitter",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3000",
+        "cliente_id": 1,
+        "cuidador_id": 1,
+        "gato_id": 1,
+        "solicitacao_id": 1
+      }
+    },
+    {
+      "_id": "fld_clientes",
+      "_type": "request_group",
+      "parentId": "wrk_catsitter",
+      "name": "1. Clientes",
+      "metaSortKey": 0
+    },
+    {
+      "_id": "req_3",
+      "_type": "request",
+      "parentId": "fld_clientes",
+      "name": "Criar cliente",
+      "method": "POST",
+      "url": "{{ _.base_url }}/clientes",
+      "metaSortKey": 1,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Ana Souza\",\n  \"email\": \"ana@email.com\",\n  \"senha\": \"123456\",\n  \"telefone\": \"11999990000\"\n}"
+      }
+    },
+    {
+      "_id": "req_4",
+      "_type": "request",
+      "parentId": "fld_clientes",
+      "name": "Listar clientes",
+      "method": "GET",
+      "url": "{{ _.base_url }}/clientes",
+      "metaSortKey": 2,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_5",
+      "_type": "request",
+      "parentId": "fld_clientes",
+      "name": "Buscar cliente",
+      "method": "GET",
+      "url": "{{ _.base_url }}/clientes/{{ _.cliente_id }}",
+      "metaSortKey": 3,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_6",
+      "_type": "request",
+      "parentId": "fld_clientes",
+      "name": "Atualizar cliente",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/clientes/{{ _.cliente_id }}",
+      "metaSortKey": 4,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"telefone\": \"11988887777\"\n}"
+      }
+    },
+    {
+      "_id": "req_7",
+      "_type": "request",
+      "parentId": "fld_clientes",
+      "name": "Excluir cliente",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/clientes/{{ _.cliente_id }}",
+      "metaSortKey": 5,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "fld_gatos",
+      "_type": "request_group",
+      "parentId": "wrk_catsitter",
+      "name": "2. Gatos",
+      "metaSortKey": 6
+    },
+    {
+      "_id": "req_9",
+      "_type": "request",
+      "parentId": "fld_gatos",
+      "name": "Criar gato",
+      "method": "POST",
+      "url": "{{ _.base_url }}/gatos",
+      "metaSortKey": 7,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Mingau\",\n  \"idade\": 3,\n  \"raca\": \"SRD\",\n  \"peso\": 4.2,\n  \"observacoes\": \"Tímido com visitas\",\n  \"clienteId\": {{ _.cliente_id }}\n}"
+      }
+    },
+    {
+      "_id": "req_10",
+      "_type": "request",
+      "parentId": "fld_gatos",
+      "name": "Listar gatos",
+      "method": "GET",
+      "url": "{{ _.base_url }}/gatos",
+      "metaSortKey": 8,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_11",
+      "_type": "request",
+      "parentId": "fld_gatos",
+      "name": "Buscar gato",
+      "method": "GET",
+      "url": "{{ _.base_url }}/gatos/{{ _.gato_id }}",
+      "metaSortKey": 9,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_12",
+      "_type": "request",
+      "parentId": "fld_gatos",
+      "name": "Atualizar gato",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/gatos/{{ _.gato_id }}",
+      "metaSortKey": 10,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"peso\": 4.5\n}"
+      }
+    },
+    {
+      "_id": "req_13",
+      "_type": "request",
+      "parentId": "fld_gatos",
+      "name": "Excluir gato",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/gatos/{{ _.gato_id }}",
+      "metaSortKey": 11,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "fld_cuidadores",
+      "_type": "request_group",
+      "parentId": "wrk_catsitter",
+      "name": "3. Cuidadores",
+      "metaSortKey": 12
+    },
+    {
+      "_id": "req_15",
+      "_type": "request",
+      "parentId": "fld_cuidadores",
+      "name": "Criar cuidador",
+      "method": "POST",
+      "url": "{{ _.base_url }}/cuidadores",
+      "metaSortKey": 13,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Carlos Lima\",\n  \"email\": \"carlos@email.com\",\n  \"senha\": \"abcdef\",\n  \"telefone\": \"11977776666\",\n  \"experiencia\": \"2 anos cuidando de gatos\",\n  \"valorVisita\": 50\n}"
+      }
+    },
+    {
+      "_id": "req_16",
+      "_type": "request",
+      "parentId": "fld_cuidadores",
+      "name": "Listar cuidadores",
+      "method": "GET",
+      "url": "{{ _.base_url }}/cuidadores",
+      "metaSortKey": 14,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_17",
+      "_type": "request",
+      "parentId": "fld_cuidadores",
+      "name": "Buscar cuidador",
+      "method": "GET",
+      "url": "{{ _.base_url }}/cuidadores/{{ _.cuidador_id }}",
+      "metaSortKey": 15,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_18",
+      "_type": "request",
+      "parentId": "fld_cuidadores",
+      "name": "Atualizar cuidador",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/cuidadores/{{ _.cuidador_id }}",
+      "metaSortKey": 16,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"valorVisita\": 60\n}"
+      }
+    },
+    {
+      "_id": "req_19",
+      "_type": "request",
+      "parentId": "fld_cuidadores",
+      "name": "Excluir cuidador",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/cuidadores/{{ _.cuidador_id }}",
+      "metaSortKey": 17,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "fld_solicitacoes",
+      "_type": "request_group",
+      "parentId": "wrk_catsitter",
+      "name": "4. Solicitações",
+      "metaSortKey": 18
+    },
+    {
+      "_id": "req_21",
+      "_type": "request",
+      "parentId": "fld_solicitacoes",
+      "name": "Criar solicitação",
+      "method": "POST",
+      "url": "{{ _.base_url }}/solicitacoes",
+      "metaSortKey": 19,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"dataVisita\": \"2026-10-15\",\n  \"horario\": \"14:00\",\n  \"servicos\": \"Alimentação e limpeza da caixa de areia\",\n  \"observacoes\": \"Ração no armário da cozinha\",\n  \"valor\": 50,\n  \"gatoId\": {{ _.gato_id }}\n}"
+      }
+    },
+    {
+      "_id": "req_22",
+      "_type": "request",
+      "parentId": "fld_solicitacoes",
+      "name": "Listar pendentes",
+      "method": "GET",
+      "url": "{{ _.base_url }}/solicitacoes",
+      "metaSortKey": 20,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_23",
+      "_type": "request",
+      "parentId": "fld_solicitacoes",
+      "name": "Buscar solicitação",
+      "method": "GET",
+      "url": "{{ _.base_url }}/solicitacoes/{{ _.solicitacao_id }}",
+      "metaSortKey": 21,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_24",
+      "_type": "request",
+      "parentId": "fld_solicitacoes",
+      "name": "Atualizar solicitação",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/solicitacoes/{{ _.solicitacao_id }}",
+      "metaSortKey": 22,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"horario\": \"15:30\"\n}"
+      }
+    },
+    {
+      "_id": "req_25",
+      "_type": "request",
+      "parentId": "fld_solicitacoes",
+      "name": "Aceitar solicitação",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/solicitacoes/{{ _.solicitacao_id }}/aceitar",
+      "metaSortKey": 23,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"cuidadorId\": {{ _.cuidador_id }}\n}"
+      }
+    },
+    {
+      "_id": "req_26",
+      "_type": "request",
+      "parentId": "fld_solicitacoes",
+      "name": "Concluir solicitação",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/solicitacoes/{{ _.solicitacao_id }}/concluir",
+      "metaSortKey": 24,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_27",
+      "_type": "request",
+      "parentId": "fld_solicitacoes",
+      "name": "Excluir solicitação",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/solicitacoes/{{ _.solicitacao_id }}",
+      "metaSortKey": 25,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "fld_erros",
+      "_type": "request_group",
+      "parentId": "wrk_catsitter",
+      "name": "5. Testes de erro (devem falhar)",
+      "metaSortKey": 26
+    },
+    {
+      "_id": "req_29",
+      "_type": "request",
+      "parentId": "fld_erros",
+      "name": "PUT tentando mudar status (status é ignorado)",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/solicitacoes/{{ _.solicitacao_id }}",
+      "metaSortKey": 27,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"status\": \"CONCLUIDA\",\n  \"cuidadorId\": 99\n}"
+      }
+    },
+    {
+      "_id": "req_30",
+      "_type": "request",
+      "parentId": "fld_erros",
+      "name": "Concluir sem aceitar (409)",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/solicitacoes/{{ _.solicitacao_id }}/concluir",
+      "metaSortKey": 28,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_31",
+      "_type": "request",
+      "parentId": "fld_erros",
+      "name": "Aceitar de novo (409)",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/solicitacoes/{{ _.solicitacao_id }}/aceitar",
+      "metaSortKey": 29,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"cuidadorId\": {{ _.cuidador_id }}\n}"
+      }
+    },
+    {
+      "_id": "req_32",
+      "_type": "request",
+      "parentId": "fld_erros",
+      "name": "Criar cliente sem campos (400)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/clientes",
+      "metaSortKey": 30,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Sem email\"\n}"
+      }
+    },
+    {
+      "_id": "req_33",
+      "_type": "request",
+      "parentId": "fld_erros",
+      "name": "Gato com cliente inexistente (404)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/gatos",
+      "metaSortKey": 31,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"X\",\n  \"idade\": 1,\n  \"raca\": \"SRD\",\n  \"clienteId\": 999\n}"
+      }
+    },
+    {
+      "_id": "req_34",
+      "_type": "request",
+      "parentId": "fld_erros",
+      "name": "Buscar ID inexistente (404)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/clientes/999",
+      "metaSortKey": 32,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_35",
+      "_type": "request",
+      "parentId": "fld_erros",
+      "name": "Rota inexistente (404)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/rota-que-nao-existe",
+      "metaSortKey": 33,
+      "headers": [],
+      "body": {}
+    }
+  ]
+}

@@ -1,4 +1,15 @@
-const { Cuidador } = require("../models");
+const { Cuidador, Solicitacao } = require("../models");
+const sequelize = require("../database/database");
+const filtrarCampos = require("../utils/filtrarCampos");
+
+const CAMPOS_EDITAVEIS = [
+    "nome",
+    "email",
+    "senha",
+    "telefone",
+    "experiencia",
+    "valorVisita"
+];
 
 const listar = async (req, res) => {
     try {
@@ -80,7 +91,7 @@ const atualizar = async (req, res) => {
             });
         }
 
-        await cuidador.update(req.body);
+        await cuidador.update(filtrarCampos(req.body, CAMPOS_EDITAVEIS));
 
         res.status(200).json(cuidador);
     } catch (error) {
@@ -100,7 +111,25 @@ const excluir = async (req, res) => {
             });
         }
 
-        await cuidador.destroy();
+        // Solicitações aceitas por esse cuidador voltam a ficar disponíveis
+        // para os demais, em vez de ficarem ACEITAS sem cuidador.
+        await sequelize.transaction(async (transaction) => {
+            await Solicitacao.update(
+                {
+                    status: "PENDENTE",
+                    cuidadorId: null
+                },
+                {
+                    where: {
+                        cuidadorId: cuidador.id,
+                        status: "ACEITA"
+                    },
+                    transaction
+                }
+            );
+
+            await cuidador.destroy({ transaction });
+        });
 
         res.status(204).send();
     } catch (error) {

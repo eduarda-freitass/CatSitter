@@ -1,0 +1,5 @@
+# Salva os arquivos de texto com LF no repositório, independente do sistema
+* text=auto eol=lf
+
+*.sqlite binary
+*.sqlite3 binary

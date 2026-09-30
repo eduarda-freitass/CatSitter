@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/database");
+const { criptografarSenha, semSenha } = require("../utils/senha");
 
 const Cuidador = sequelize.define("Cuidador", {
     id: {
@@ -41,6 +42,17 @@ const Cuidador = sequelize.define("Cuidador", {
         type: DataTypes.FLOAT,
         allowNull: false
     }
+}, {
+    // Não carrega a senha nas consultas (inclusive em includes).
+    defaultScope: {
+        attributes: { exclude: ["senha"] }
+    },
+
+    hooks: {
+        beforeSave: criptografarSenha
+    }
 });
+
+Cuidador.prototype.toJSON = semSenha;
 
 module.exports = Cuidador;

@@ -1,4 +1,7 @@
 const { Cliente } = require("../models");
+const filtrarCampos = require("../utils/filtrarCampos");
+
+const CAMPOS_EDITAVEIS = ["nome", "email", "senha", "telefone"];
 
 const listar = async (req, res) => {
     try {
@@ -65,7 +68,7 @@ const atualizar = async (req, res) => {
             });
         }
 
-        await cliente.update(req.body);
+        await cliente.update(filtrarCampos(req.body, CAMPOS_EDITAVEIS));
 
         res.status(200).json(cliente);
     } catch (error) {
