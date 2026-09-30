@@ -9,6 +9,8 @@ API REST do CatSitter, um sistema que conecta clientes que precisam de cuidados 
 * Sequelize
 * SQLite
 * JavaScript
+* Jest
+* Supertest
 
 ## Como executar
 
@@ -28,7 +30,11 @@ A API ficará disponível em:
 
 ```text
 http://localhost:3000
-```
+
+Para executar os testes automatizados:
+
+```bash
+npm test
 
 ## Entidades
 
@@ -88,4 +94,23 @@ O projeto utiliza SQLite para persistência dos dados.
 
 ## Testes
 
-A coleção `docs/insomnia_testes_catsitter.json` pode ser importada no Insomnia e contém todas as requisições da API, além de testes de erro.
+O projeto possui testes manuais e automatizados para validar o funcionamento da API.
+
+### Testes manuais
+
+A API pode ser testada utilizando o Insomnia.
+
+A coleção de testes está disponível em:
+
+`docs/insomnia_testes_catsitter.json`
+
+Ela pode ser importada diretamente no Insomnia e contém requisições para os principais endpoints, incluindo casos de sucesso e erro.
+
+### Testes automatizados
+
+Os testes automatizados utilizam Jest e Supertest.
+
+Para executar os testes:
+
+```bash
+npm test
