@@ -226,6 +226,40 @@ const concluir = async (req, res) => {
     }
 };
 
+//adicionando opção de cancelar a solicitacao
+
+const cancelar = async (req, res) => {
+    try {
+        const solicitacao = await Solicitacao.findByPk(req.params.id);
+
+        if (!solicitacao) {
+            return res.status(404).json({
+                erro: "Solicitação não encontrada."
+            });
+        }
+
+        // Só pode cancelar solicitações pendentes ou aceitas
+        if (
+            solicitacao.status !== "PENDENTE" &&
+            solicitacao.status !== "ACEITA"
+        ) {
+            return res.status(409).json({
+                erro: "Essa solicitação não pode ser cancelada."
+            });
+        }
+
+        await solicitacao.update({
+            status: "CANCELADA"
+        });
+
+        res.status(200).json(solicitacao);
+    } catch (error) {
+        res.status(500).json({
+            erro: "Erro ao cancelar solicitação."
+        });
+    }
+};
+
 module.exports = {
     listar,
     buscarPorId,
@@ -233,5 +267,6 @@ module.exports = {
     atualizar,
     excluir,
     aceitar,
-    concluir
+    concluir,
+    cancelar
 };

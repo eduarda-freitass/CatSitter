@@ -226,4 +226,68 @@ describe("Solicitações", () => {
             .toBe("A solicitação precisa estar aceita para ser concluída.");
     });
 
+    //adicionando teste da nova finção de cancelar a solicitação
+
+    test("deve cancelar uma solicitação pendente", async () => {
+
+    const { gato } = await criarClienteEGato();
+
+    const solicitacao = await request(app)
+        .post("/solicitacoes")
+        .send({
+            dataVisita: "2026-10-10",
+            horario: "14:00",
+            servicos: "Alimentação",
+            observacoes: "Visita normal",
+            valor: 50,
+            gatoId: gato.id
+        });
+
+    expect(solicitacao.status).toBe(201);
+
+    const resposta = await request(app)
+        .patch(`/solicitacoes/${solicitacao.body.id}/cancelar`);
+
+    expect(resposta.status).toBe(200);
+    expect(resposta.body.status).toBe("CANCELADA");
+});
+
+test("não deve permitir cancelar uma solicitação concluída", async () => {
+
+    const { gato } = await criarClienteEGato();
+    const cuidador = await criarCuidador();
+
+    const solicitacao = await request(app)
+        .post("/solicitacoes")
+        .send({
+            dataVisita: "2026-10-10",
+            horario: "14:00",
+            servicos: "Alimentação",
+            observacoes: "Visita normal",
+            valor: 50,
+            gatoId: gato.id
+        });
+
+    const aceitacao = await request(app)
+        .patch(`/solicitacoes/${solicitacao.body.id}/aceitar`)
+        .send({
+            cuidadorId: cuidador.id
+        });
+
+    expect(aceitacao.status).toBe(200);
+
+    const conclusao = await request(app)
+        .patch(`/solicitacoes/${solicitacao.body.id}/concluir`);
+
+    expect(conclusao.status).toBe(200);
+
+    const cancelamento = await request(app)
+        .patch(`/solicitacoes/${solicitacao.body.id}/cancelar`);
+
+    expect(cancelamento.status).toBe(409);
+
+    expect(cancelamento.body.erro)
+        .toBe("Essa solicitação não pode ser cancelada.");
+});
+
 });
