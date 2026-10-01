@@ -63,8 +63,7 @@ Cuidador 1 ─── N Solicitação
 | POST   | `/gatos`                     | Cadastrar gato                  |
 | GET    | `/solicitacoes`              | Listar solicitações disponíveis |
 | POST   | `/solicitacoes`              | Criar solicitação               |
-| PATCH  | `/solicitacoes/:id/aceitar`  | Aceitar solicitação, verificando|
-                                          conflito de horario             |
+| PATCH  | `/solicitacoes/:id/aceitar`  | Aceitar solicitação, verificando conflito de horario|
 | PATCH  | `/solicitacoes/:id/concluir` | Concluir solicitação            |
 | PATCH  | `/solicitacoes/:id/cancelar` | Cancelar solicitação            |
 
