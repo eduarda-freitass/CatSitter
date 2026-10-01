@@ -58,14 +58,30 @@ Cuidador 1 ─── N Solicitação
 | GET    | `/clientes`                  | Listar clientes                 |
 | POST   | `/clientes`                  | Cadastrar cliente               |
 | GET    | `/cuidadores`                | Listar cuidadores               |
-| POST   | `/cuidadores`                | Cadastrar cuidador               |
+| POST   | `/cuidadores`                | Cadastrar cuidador              |
 | GET    | `/gatos`                     | Listar gatos                    |
 | POST   | `/gatos`                     | Cadastrar gato                  |
 | GET    | `/solicitacoes`              | Listar solicitações disponíveis |
 | POST   | `/solicitacoes`              | Criar solicitação               |
-| PATCH  | `/solicitacoes/:id/aceitar`  | Aceitar solicitação             |
+| PATCH  | `/solicitacoes/:id/aceitar`  | Aceitar solicitação, verificando|
+                                          conflito de horario             |
 | PATCH  | `/solicitacoes/:id/concluir` | Concluir solicitação            |
-| PATCH  | `/solicitacoes/:id/cancelar` | Cancelar solicitação             |
+| PATCH  | `/solicitacoes/:id/cancelar` | Cancelar solicitação            |
+
+## Regras de negócio
+
+### Conflito de horário do cuidador
+
+Um cuidador não pode aceitar duas solicitações para a mesma data e horário.
+
+Ao tentar aceitar uma solicitação que possui o mesmo cuidador, data e horário de outra solicitação que já está aceita, a API retorna `409 Conflict`.
+
+Exemplo de resposta:
+
+```json
+{
+  "erro": "Cuidador já possui uma solicitação nesse dia e horário."
+}
 
 ## Fluxo principal
 
@@ -112,6 +128,11 @@ Ela pode ser importada diretamente no Insomnia e contém requisições para os p
 ### Testes automatizados
 
 Os testes automatizados utilizam Jest e Supertest.
+
+Os testes também verificam o conflito de horário dos cuidadores, garantindo que:
+
+* Um cuidador não possa aceitar duas solicitações no mesmo dia e horário.
+* Um cuidador possa aceitar solicitações em horários diferentes.
 
 Para executar os testes:
 
