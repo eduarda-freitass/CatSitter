@@ -2,7 +2,13 @@ const { Solicitacao, Gato, Cuidador } = require("../models");
 const filtrarCampos = require("../utils/filtrarCampos");
 
 // status e cuidadorId só mudam pelas rotas /aceitar e /concluir.
-const CAMPOS_EDITAVEIS = ["dataVisita", "horario", "servicos", "observacoes", "valor"];
+const CAMPOS_EDITAVEIS = [
+    "dataVisita",
+    "horario",
+    "servicos",
+    "observacoes",
+    "valor"
+];
 
 const listar = async (req, res) => {
     try {
@@ -123,7 +129,9 @@ const atualizar = async (req, res) => {
             });
         }
 
-        await solicitacao.update(filtrarCampos(req.body, CAMPOS_EDITAVEIS));
+        await solicitacao.update(
+            filtrarCampos(req.body, CAMPOS_EDITAVEIS)
+        );
 
         res.status(200).json(solicitacao);
     } catch (error) {
@@ -185,6 +193,23 @@ const aceitar = async (req, res) => {
             });
         }
 
+        // Verifica se o cuidador já possui outra
+        // solicitação aceita na mesma data e horário.
+        const conflito = await Solicitacao.findOne({
+            where: {
+                cuidadorId,
+                dataVisita: solicitacao.dataVisita,
+                horario: solicitacao.horario,
+                status: "ACEITA"
+            }
+        });
+
+        if (conflito) {
+            return res.status(409).json({
+                erro: "Cuidador já possui uma solicitação nesse dia e horário."
+            });
+        }
+
         await solicitacao.update({
             cuidadorId,
             status: "ACEITA"
@@ -226,8 +251,7 @@ const concluir = async (req, res) => {
     }
 };
 
-//adicionando opção de cancelar a solicitacao
-
+// Cancelamento de solicitação
 const cancelar = async (req, res) => {
     try {
         const solicitacao = await Solicitacao.findByPk(req.params.id);
