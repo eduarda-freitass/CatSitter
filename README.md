@@ -58,13 +58,14 @@ Cuidador 1 ─── N Solicitação
 | GET    | `/clientes`                  | Listar clientes                 |
 | POST   | `/clientes`                  | Cadastrar cliente               |
 | GET    | `/cuidadores`                | Listar cuidadores               |
-| POST   | `/cuidadores`                | Cadastrar cuidador              |
+| POST   | `/cuidadores`                | Cadastrar cuidador               |
 | GET    | `/gatos`                     | Listar gatos                    |
 | POST   | `/gatos`                     | Cadastrar gato                  |
 | GET    | `/solicitacoes`              | Listar solicitações disponíveis |
 | POST   | `/solicitacoes`              | Criar solicitação               |
 | PATCH  | `/solicitacoes/:id/aceitar`  | Aceitar solicitação             |
 | PATCH  | `/solicitacoes/:id/concluir` | Concluir solicitação            |
+| PATCH  | `/solicitacoes/:id/cancelar` | Cancelar solicitação             |
 
 ## Fluxo principal
 
