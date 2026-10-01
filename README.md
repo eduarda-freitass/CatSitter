@@ -76,13 +76,15 @@ Cria solicitação
         ↓
 Solicitação PENDENTE
         ↓
-Cuidador aceita
-        ↓
-Solicitação ACEITA
-        ↓
-Visita realizada
-        ↓
-Solicitação CONCLUIDA
+   ┌────┴────┐
+   ↓         ↓
+CANCELADA  Cuidador aceita
+             ↓
+        Solicitação ACEITA
+             ↓
+        Visita realizada
+             ↓
+        Solicitação CONCLUIDA
 ```
 
 O projeto utiliza SQLite para persistência dos dados.
