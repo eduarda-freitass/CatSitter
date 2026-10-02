@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const tratarErros = require("./middlewares/tratarErros");
 
 const app = express();
 
@@ -16,5 +17,8 @@ app.use((req, res) => {
         erro: "Rota não encontrada."
     });
 });
+
+// Precisa ficar por último para receber os erros de todas as rotas.
+app.use(tratarErros);
 
 module.exports = app;

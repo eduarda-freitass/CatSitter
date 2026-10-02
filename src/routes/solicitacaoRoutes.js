@@ -18,4 +18,6 @@ router.patch("/:id/aceitar", solicitacaoController.aceitar);
 
 router.patch("/:id/concluir", solicitacaoController.concluir);
 
+router.patch("/:id/cancelar", solicitacaoController.cancelar);
+
 module.exports = router;
