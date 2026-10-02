@@ -5,23 +5,28 @@ Base URL: `http://localhost:3000`
 | Método | Rota                         | Função                          |
 | ------ | ---------------------------- | ------------------------------- |
 | GET    | `/clientes`                  | Listar clientes                 |
+| GET    | `/clientes/:id`              | Buscar cliente por ID           |
 | POST   | `/clientes`                  | Cadastrar cliente               |
 | PUT    | `/clientes/:id`              | Atualizar cliente               |
 | DELETE | `/clientes/:id`              | Excluir cliente                 |
 | GET    | `/cuidadores`                | Listar cuidadores               |
+| GET    | `/cuidadores/:id`            | Buscar cuidador por ID          |
 | POST   | `/cuidadores`                | Cadastrar cuidador              |
 | PUT    | `/cuidadores/:id`            | Atualizar cuidador              |
 | DELETE | `/cuidadores/:id`            | Excluir cuidador                |
 | GET    | `/gatos`                     | Listar gatos                    |
+| GET    | `/gatos/:id`                 | Buscar gato por ID              |
 | POST   | `/gatos`                     | Cadastrar gato                  |
 | PUT    | `/gatos/:id`                 | Atualizar gato                  |
 | DELETE | `/gatos/:id`                 | Excluir gato                    |
 | GET    | `/solicitacoes`              | Listar solicitações disponíveis |
+| GET    | `/solicitacoes/:id`          | Buscar solicitação por ID       |
 | POST   | `/solicitacoes`              | Criar solicitação               |
 | PUT    | `/solicitacoes/:id`          | Atualizar solicitação           |
 | DELETE | `/solicitacoes/:id`          | Excluir solicitação             |
 | PATCH  | `/solicitacoes/:id/aceitar`  | Aceitar solicitação             |
 | PATCH  | `/solicitacoes/:id/concluir` | Concluir solicitação            |
+| PATCH  | `/solicitacoes/:id/cancelar` | Cancelar solicitação            |
 
 ## Status das solicitações
 

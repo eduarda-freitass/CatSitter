@@ -1,0 +1,15 @@
+services:
+  api:
+    build: .
+    container_name: catsitter-api
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      DB_STORAGE: /app/data/catsitter.sqlite
+    volumes:
+      - catsitter-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  catsitter-data:

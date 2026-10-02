@@ -226,178 +226,205 @@ describe("Solicitações", () => {
             .toBe("A solicitação precisa estar aceita para ser concluída.");
     });
 
-    //adicionando teste da nova finção de cancelar a solicitação
+    //adicionando teste da nova função de cancelar a solicitação
 
     test("deve cancelar uma solicitação pendente", async () => {
 
-    const { gato } = await criarClienteEGato();
+        const { gato } = await criarClienteEGato();
 
-    const solicitacao = await request(app)
-        .post("/solicitacoes")
-        .send({
-            dataVisita: "2026-10-10",
-            horario: "14:00",
-            servicos: "Alimentação",
-            observacoes: "Visita normal",
-            valor: 50,
-            gatoId: gato.id
-        });
+        const solicitacao = await request(app)
+            .post("/solicitacoes")
+            .send({
+                dataVisita: "2026-10-10",
+                horario: "14:00",
+                servicos: "Alimentação",
+                observacoes: "Visita normal",
+                valor: 50,
+                gatoId: gato.id
+            });
 
-    expect(solicitacao.status).toBe(201);
+        expect(solicitacao.status).toBe(201);
 
-    const resposta = await request(app)
-        .patch(`/solicitacoes/${solicitacao.body.id}/cancelar`);
+        const resposta = await request(app)
+            .patch(`/solicitacoes/${solicitacao.body.id}/cancelar`);
 
-    expect(resposta.status).toBe(200);
-    expect(resposta.body.status).toBe("CANCELADA");
-});
+        expect(resposta.status).toBe(200);
+        expect(resposta.body.status).toBe("CANCELADA");
+    });
 
-test("não deve permitir cancelar uma solicitação concluída", async () => {
+    test("não deve permitir cancelar uma solicitação concluída", async () => {
 
-    const { gato } = await criarClienteEGato();
-    const cuidador = await criarCuidador();
+        const { gato } = await criarClienteEGato();
+        const cuidador = await criarCuidador();
 
-    const solicitacao = await request(app)
-        .post("/solicitacoes")
-        .send({
-            dataVisita: "2026-10-10",
-            horario: "14:00",
-            servicos: "Alimentação",
-            observacoes: "Visita normal",
-            valor: 50,
-            gatoId: gato.id
-        });
+        const solicitacao = await request(app)
+            .post("/solicitacoes")
+            .send({
+                dataVisita: "2026-10-10",
+                horario: "14:00",
+                servicos: "Alimentação",
+                observacoes: "Visita normal",
+                valor: 50,
+                gatoId: gato.id
+            });
 
-    const aceitacao = await request(app)
-        .patch(`/solicitacoes/${solicitacao.body.id}/aceitar`)
-        .send({
-            cuidadorId: cuidador.id
-        });
+        const aceitacao = await request(app)
+            .patch(`/solicitacoes/${solicitacao.body.id}/aceitar`)
+            .send({
+                cuidadorId: cuidador.id
+            });
 
-    expect(aceitacao.status).toBe(200);
+        expect(aceitacao.status).toBe(200);
 
-    const conclusao = await request(app)
-        .patch(`/solicitacoes/${solicitacao.body.id}/concluir`);
+        const conclusao = await request(app)
+            .patch(`/solicitacoes/${solicitacao.body.id}/concluir`);
 
-    expect(conclusao.status).toBe(200);
+        expect(conclusao.status).toBe(200);
 
-    const cancelamento = await request(app)
-        .patch(`/solicitacoes/${solicitacao.body.id}/cancelar`);
+        const cancelamento = await request(app)
+            .patch(`/solicitacoes/${solicitacao.body.id}/cancelar`);
 
-    expect(cancelamento.status).toBe(409);
+        expect(cancelamento.status).toBe(409);
 
-    expect(cancelamento.body.erro)
-        .toBe("Essa solicitação não pode ser cancelada.");
-});
+        expect(cancelamento.body.erro)
+            .toBe("Essa solicitação não pode ser cancelada.");
+    });
 
 
-test("não deve permitir que um cuidador aceite duas solicitações no mesmo dia e horário", async () => {
+    test("não deve permitir que um cuidador aceite duas solicitações no mesmo dia e horário", async () => {
 
-    const { gato } = await criarClienteEGato();
-    const cuidador = await criarCuidador();
+        const { gato } = await criarClienteEGato();
+        const cuidador = await criarCuidador();
 
     // Primeira solicitação
-    const solicitacao1 = await request(app)
-        .post("/solicitacoes")
-        .send({
-            dataVisita: "2026-10-10",
-            horario: "14:00",
-            servicos: "Alimentação",
-            observacoes: "Primeira visita",
-            valor: 50,
-            gatoId: gato.id
-        });
+        const solicitacao1 = await request(app)
+            .post("/solicitacoes")
+            .send({
+                dataVisita: "2026-10-10",
+                horario: "14:00",
+                servicos: "Alimentação",
+                observacoes: "Primeira visita",
+                valor: 50,
+                gatoId: gato.id
+            });
 
-    expect(solicitacao1.status).toBe(201);
+        expect(solicitacao1.status).toBe(201);
 
     // Cuidador aceita a primeira solicitação
-    const primeiraAceitacao = await request(app)
-        .patch(`/solicitacoes/${solicitacao1.body.id}/aceitar`)
-        .send({
-            cuidadorId: cuidador.id
-        });
+        const primeiraAceitacao = await request(app)
+            .patch(`/solicitacoes/${solicitacao1.body.id}/aceitar`)
+            .send({
+                cuidadorId: cuidador.id
+            });
 
-    expect(primeiraAceitacao.status).toBe(200);
+        expect(primeiraAceitacao.status).toBe(200);
 
     // Segunda solicitação no mesmo dia e horário
-    const solicitacao2 = await request(app)
-        .post("/solicitacoes")
-        .send({
-            dataVisita: "2026-10-10",
-            horario: "14:00",
-            servicos: "Limpeza da caixa",
-            observacoes: "Segunda visita",
-            valor: 50,
-            gatoId: gato.id
-        });
+        const solicitacao2 = await request(app)
+            .post("/solicitacoes")
+            .send({
+                dataVisita: "2026-10-10",
+                horario: "14:00",
+                servicos: "Limpeza da caixa",
+                observacoes: "Segunda visita",
+                valor: 50,
+                gatoId: gato.id
+            });
 
-    expect(solicitacao2.status).toBe(201);
+        expect(solicitacao2.status).toBe(201);
 
     // Mesmo cuidador tenta aceitar
-    const segundaAceitacao = await request(app)
-        .patch(`/solicitacoes/${solicitacao2.body.id}/aceitar`)
-        .send({
-            cuidadorId: cuidador.id
-        });
+        const segundaAceitacao = await request(app)
+            .patch(`/solicitacoes/${solicitacao2.body.id}/aceitar`)
+            .send({
+                cuidadorId: cuidador.id
+            });
 
-    expect(segundaAceitacao.status).toBe(409);
+        expect(segundaAceitacao.status).toBe(409);
 
-    expect(segundaAceitacao.body.erro)
-        .toBe("Cuidador já possui uma solicitação nesse dia e horário.");
-});
+        expect(segundaAceitacao.body.erro)
+            .toBe("Cuidador já possui uma solicitação nesse dia e horário.");
+    });
 
 
-test("deve permitir que um cuidador aceite solicitações em horários diferentes", async () => {
+    test("deve permitir que um cuidador aceite solicitações em horários diferentes", async () => {
 
-    const { gato } = await criarClienteEGato();
-    const cuidador = await criarCuidador();
+        const { gato } = await criarClienteEGato();
+        const cuidador = await criarCuidador();
 
     // Primeira solicitação às 14:00
-    const solicitacao1 = await request(app)
-        .post("/solicitacoes")
-        .send({
-            dataVisita: "2026-10-10",
-            horario: "14:00",
-            servicos: "Alimentação",
-            observacoes: "Primeira visita",
-            valor: 50,
-            gatoId: gato.id
-        });
+        const solicitacao1 = await request(app)
+            .post("/solicitacoes")
+            .send({
+                dataVisita: "2026-10-10",
+                horario: "14:00",
+                servicos: "Alimentação",
+                observacoes: "Primeira visita",
+                valor: 50,
+                gatoId: gato.id
+            });
 
-    expect(solicitacao1.status).toBe(201);
+        expect(solicitacao1.status).toBe(201);
 
-    const primeiraAceitacao = await request(app)
-        .patch(`/solicitacoes/${solicitacao1.body.id}/aceitar`)
-        .send({
-            cuidadorId: cuidador.id
-        });
+        const primeiraAceitacao = await request(app)
+            .patch(`/solicitacoes/${solicitacao1.body.id}/aceitar`)
+            .send({
+                cuidadorId: cuidador.id
+            });
 
-    expect(primeiraAceitacao.status).toBe(200);
+        expect(primeiraAceitacao.status).toBe(200);
 
     // Segunda solicitação às 16:00
-    const solicitacao2 = await request(app)
-        .post("/solicitacoes")
-        .send({
-            dataVisita: "2026-10-10",
-            horario: "16:00",
-            servicos: "Limpeza da caixa",
-            observacoes: "Segunda visita",
-            valor: 50,
-            gatoId: gato.id
-        });
+        const solicitacao2 = await request(app)
+            .post("/solicitacoes")
+            .send({
+                dataVisita: "2026-10-10",
+                horario: "16:00",
+                servicos: "Limpeza da caixa",
+                observacoes: "Segunda visita",
+                valor: 50,
+                gatoId: gato.id
+            });
 
-    expect(solicitacao2.status).toBe(201);
+        expect(solicitacao2.status).toBe(201);
 
-    const segundaAceitacao = await request(app)
-        .patch(`/solicitacoes/${solicitacao2.body.id}/aceitar`)
-        .send({
-            cuidadorId: cuidador.id
-        });
+        const segundaAceitacao = await request(app)
+            .patch(`/solicitacoes/${solicitacao2.body.id}/aceitar`)
+            .send({
+                cuidadorId: cuidador.id
+            });
 
-    expect(segundaAceitacao.status).toBe(200);
-    expect(segundaAceitacao.body.status).toBe("ACEITA");
-    expect(segundaAceitacao.body.cuidadorId).toBe(cuidador.id);
-});
+        expect(segundaAceitacao.status).toBe(200);
+        expect(segundaAceitacao.body.status).toBe("ACEITA");
+        expect(segundaAceitacao.body.cuidadorId).toBe(cuidador.id);
+    });
 
+    test("não deve permitir alterar uma solicitação cancelada", async () => {
 
+        const { gato } = await criarClienteEGato();
+
+        const solicitacao = await request(app)
+            .post("/solicitacoes")
+            .send({
+                dataVisita: "2026-10-10",
+                horario: "14:00",
+                servicos: "Alimentação",
+                observacoes: "Visita normal",
+                valor: 50,
+                gatoId: gato.id
+            });
+
+        await request(app)
+            .patch(`/solicitacoes/${solicitacao.body.id}/cancelar`);
+
+        const resposta = await request(app)
+            .put(`/solicitacoes/${solicitacao.body.id}`)
+            .send({
+                valor: 80
+            });
+
+        expect(resposta.status).toBe(409);
+        expect(resposta.body.erro)
+            .toBe("Uma solicitação concluída ou cancelada não pode ser alterada.");
+    });
 });
