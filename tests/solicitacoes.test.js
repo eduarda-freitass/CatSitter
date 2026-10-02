@@ -296,7 +296,7 @@ describe("Solicitações", () => {
         const { gato } = await criarClienteEGato();
         const cuidador = await criarCuidador();
 
-    // Primeira solicitação
+        // Primeira solicitação
         const solicitacao1 = await request(app)
             .post("/solicitacoes")
             .send({
@@ -310,7 +310,7 @@ describe("Solicitações", () => {
 
         expect(solicitacao1.status).toBe(201);
 
-    // Cuidador aceita a primeira solicitação
+        // Cuidador aceita a primeira solicitação
         const primeiraAceitacao = await request(app)
             .patch(`/solicitacoes/${solicitacao1.body.id}/aceitar`)
             .send({
@@ -319,7 +319,7 @@ describe("Solicitações", () => {
 
         expect(primeiraAceitacao.status).toBe(200);
 
-    // Segunda solicitação no mesmo dia e horário
+        // Segunda solicitação no mesmo dia e horário
         const solicitacao2 = await request(app)
             .post("/solicitacoes")
             .send({
@@ -333,7 +333,7 @@ describe("Solicitações", () => {
 
         expect(solicitacao2.status).toBe(201);
 
-    // Mesmo cuidador tenta aceitar
+        // Mesmo cuidador tenta aceitar
         const segundaAceitacao = await request(app)
             .patch(`/solicitacoes/${solicitacao2.body.id}/aceitar`)
             .send({
@@ -352,7 +352,7 @@ describe("Solicitações", () => {
         const { gato } = await criarClienteEGato();
         const cuidador = await criarCuidador();
 
-    // Primeira solicitação às 14:00
+        // Primeira solicitação às 14:00
         const solicitacao1 = await request(app)
             .post("/solicitacoes")
             .send({
@@ -374,7 +374,7 @@ describe("Solicitações", () => {
 
         expect(primeiraAceitacao.status).toBe(200);
 
-    // Segunda solicitação às 16:00
+        // Segunda solicitação às 16:00
         const solicitacao2 = await request(app)
             .post("/solicitacoes")
             .send({

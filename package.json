@@ -6,7 +6,11 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "jest --runInBand"
+    "test": "jest --runInBand --verbose",
+    "test:clientes": "jest tests/clientes.test.js --verbose",
+    "test:gatos": "jest tests/gatos.test.js --verbose",
+    "test:solicitacoes": "jest tests/solicitacoes.test.js --verbose",
+    "test:erros": "jest tests/erros.test.js --verbose"
   },
   "repository": {
     "type": "git",
