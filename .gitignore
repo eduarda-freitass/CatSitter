@@ -1,7 +1,6 @@
-# Dependências
 node_modules/
 
-# Variáveis de ambiente (mantém apenas o exemplo)
+# Variáveis de ambiente
 .env
 .env.*
 !.env.example

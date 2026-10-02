@@ -30,11 +30,33 @@ A API ficará disponível em:
 
 ```text
 http://localhost:3000
+```
 
 Para executar os testes automatizados:
 
 ```bash
 npm test
+```
+
+## Rodando com Docker
+
+Com o Docker instalado, suba a API com:
+
+```bash
+docker compose up -d --build
+```
+
+A API ficará disponível em `http://localhost:3000`.
+
+O banco SQLite fica salvo no volume `catsitter-data`, então os dados são mantidos mesmo se o container for recriado.
+
+Comandos úteis:
+
+```bash
+docker compose logs -f   # acompanhar os logs
+docker compose down      # parar a API (mantém os dados)
+docker compose down -v   # parar a API e apagar o banco
+```
 
 ## Entidades
 
@@ -63,8 +85,25 @@ Cuidador 1 ─── N Solicitação
 | POST   | `/gatos`                     | Cadastrar gato                  |
 | GET    | `/solicitacoes`              | Listar solicitações disponíveis |
 | POST   | `/solicitacoes`              | Criar solicitação               |
-| PATCH  | `/solicitacoes/:id/aceitar`  | Aceitar solicitação             |
+| PATCH  | `/solicitacoes/:id/aceitar`  | Aceitar solicitação, verificando conflito de horário |
 | PATCH  | `/solicitacoes/:id/concluir` | Concluir solicitação            |
+| PATCH  | `/solicitacoes/:id/cancelar` | Cancelar solicitação            |
+
+## Regras de negócio
+
+### Conflito de horário do cuidador
+
+Um cuidador não pode aceitar duas solicitações para a mesma data e horário.
+
+Ao tentar aceitar uma solicitação que possui o mesmo cuidador, data e horário de outra solicitação que já está aceita, a API retorna `409 Conflict`.
+
+Exemplo de resposta:
+
+```json
+{
+  "erro": "Cuidador já possui uma solicitação nesse dia e horário."
+}
+```
 
 ## Fluxo principal
 
@@ -75,13 +114,15 @@ Cria solicitação
         ↓
 Solicitação PENDENTE
         ↓
-Cuidador aceita
-        ↓
-Solicitação ACEITA
-        ↓
-Visita realizada
-        ↓
-Solicitação CONCLUIDA
+   ┌────┴────┐
+   ↓         ↓
+CANCELADA  Cuidador aceita
+             ↓
+        Solicitação ACEITA
+             ↓
+        Visita realizada
+             ↓
+        Solicitação CONCLUIDA
 ```
 
 O projeto utiliza SQLite para persistência dos dados.
@@ -90,6 +131,7 @@ O projeto utiliza SQLite para persistência dos dados.
 
 * **Senhas criptografadas** — senhas de clientes e cuidadores são salvas como hash `bcrypt` e nunca aparecem nas respostas da API.
 * **Filtro de campos** — as rotas de atualização (`PUT`) só aceitam os campos editáveis de cada entidade. Campos protegidos, como `id`, `status`, `cuidadorId` e `clienteId`, são ignorados.
+* **Tratamento de erros centralizado** — o middleware `src/middlewares/tratarErros.js` recebe os erros de todas as rotas e responde sempre em JSON: email repetido retorna `409`, dados inválidos ou JSON mal formado retornam `400` e erros inesperados retornam `500`.
 * **Exclusão de cuidador** — solicitações aceitas pelo cuidador excluído voltam para `PENDENTE`, ficando disponíveis para outros cuidadores.
 
 ## Testes
@@ -110,7 +152,13 @@ Ela pode ser importada diretamente no Insomnia e contém requisições para os p
 
 Os testes automatizados utilizam Jest e Supertest.
 
+Os testes também verificam o conflito de horário dos cuidadores, garantindo que:
+
+* Um cuidador não possa aceitar duas solicitações no mesmo dia e horário.
+* Um cuidador possa aceitar solicitações em horários diferentes.
+
 Para executar os testes:
 
 ```bash
 npm test
+```
